@@ -3,7 +3,7 @@ import { addToCartIcon, favouriteActiveIcon, favouriteInActiveIcon } from "../co
 import useCartStore from "../store/useCartStore";
 import useFavoriteStore from "../store/useFavourite";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, navigation }) => {
     const { addToCart } = useCartStore();
     const { addToFavorites, removeFromFavorites, favorites } = useFavoriteStore();
 
@@ -21,19 +21,21 @@ const ProductItem = ({ product }) => {
         // add to cart
         addToCart(product);
     }
-    console.log(favorites)
     return (
         <View style={styles.itemContainer}>
             <Pressable style={styles.favouriteContainer} onPress={handleFavouritePress}>
                 <Image source={isFavorite ? favouriteActiveIcon : favouriteInActiveIcon} style={styles.icon} />
             </Pressable>
-            <View style={styles.imageContainer}>
+            <Pressable onPress={() => navigation.navigate(
+                "ProductDetail",
+                { id: product.id }
+            )} style={styles.imageContainer}>
                 <Image
                     source={{ uri: product.thumbnail }}
                     resizeMode="cover"
                     style={styles.image}
                 />
-            </View>
+            </Pressable>
             <View style={styles.infoContainer}>
                 <View>
                     <Text style={styles.price}>${product.price}</Text>
