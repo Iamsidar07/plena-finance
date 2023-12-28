@@ -6,17 +6,21 @@ import { SCREEN_WIDTH } from "../constants/screen";
 import { useEffect, useState } from "react";
 import ProductItem from "../components/ProductItem";
 import useCartStore from "../store/useCartStore";
+import { showToast } from "../utils/toast";
+import { debounce } from "../utils/debounce";
+import { BASE_URL } from "../config";
 
 const location = "Green Way 3000, Sylhet"
 
-const BASE_URL = `https://dummyjson.com`
 
-export default function HomeScreen() {
+
+export default function HomeScreen({navigation}) {
     const [products, setProducts] = useState([]);
     const [isFetchingProducts, setIsFetchingProducts] = useState(true);
     const [isErrorWhileFetchingProducts, setIsErrorWhileFetchingProducts] = useState(false);
+    const [searchInput, setSearchInput] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
     const { cart } = useCartStore();
-    console.log({ cart })
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -29,14 +33,29 @@ export default function HomeScreen() {
                 const data = await response.json();
                 setProducts(data.products);
             } catch (error) {
-                console.log(error);
+                console.error(error);
+                showToast(error.message);
                 setIsErrorWhileFetchingProducts(true)
             } finally {
                 setIsFetchingProducts(false)
             }
         }
         fetchProducts();
-    }, [])
+    }, []);
+
+    const handleSearchChange = (value) => {
+        setSearchInput(value);
+        const debounceFunc = debounce(() => {
+            if (!value) {
+                setSearchResults([]);
+                return;
+            }
+            const results = products.filter((product) => product.title.toLowerCase().includes(value.toLowerCase()));
+            setSearchResults(results);
+        }, 700);
+        debounceFunc();
+    }
+
 
     const carouselItem = ({ item }) => {
         return (
@@ -52,7 +71,7 @@ export default function HomeScreen() {
 
     const renderProductItem = ({ item }) => {
         return (
-            <ProductItem product={item} />
+            <ProductItem navigation={navigation} product={item} />
         )
     }
 
@@ -73,6 +92,8 @@ export default function HomeScreen() {
                         placeholder="Search for products or store"
                         placeholderTextColor={"#8891A5"}
                         cursorColor={"#8891A5"}
+                        value={searchInput}
+                        onChangeText={handleSearchChange}
                     />
                 </View>
                 <View style={styles.deliveryDetailContainer}>
@@ -117,11 +138,11 @@ export default function HomeScreen() {
                     }}
                 />
             </View>
-            <Text style={styles.recommendedTitle}>Recommended</Text>
+            <Text style={styles.recommendedTitle}>{searchInput ? `"${searchInput}"` : "Recommended"}</Text>
             <>
                 {
                     isFetchingProducts ? <Text style={{ textAlign: "center" }}>Loading...</Text> : <FlatList
-                        data={products}
+                        data={searchInput ? searchResults : products}
                         renderItem={renderProductItem}
                         keyExtractor={(item) => item.id.toString()}
                         numColumns={2}
@@ -129,6 +150,9 @@ export default function HomeScreen() {
                             padding: 10,
                         }}
                     />
+                }
+                {
+                    isErrorWhileFetchingProducts && !isFetchingProducts ? <Text style={{ textAlign: "center" }}>Something went wrong!</Text> : null
                 }
             </>
         </ScrollView>
@@ -139,16 +163,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#F8F9FB",
-    },
-    fixedHeader: {
-        backgroundColor: '#2A4BA0',
-        padding: 20,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        paddingBottom: 0,
-    },
-    scrollableContent: {
-        flex: 1,
     },
     headerContainer: {
         padding: 20,
@@ -182,6 +196,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFC83A",
         color: "#FFFFFF",
         textAlign: "center",
+        borderColor: "#2A4BA0",
+        borderWidth: 2
     },
     searchIcon: {
         width: 25,
