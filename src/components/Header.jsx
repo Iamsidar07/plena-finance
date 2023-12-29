@@ -18,7 +18,7 @@ const Header = ({ back, title, secondaryText, bag, navigation }) => {
           title ? <Text style={styles.title}>{title}</Text> : null
         }
         {
-          secondaryText ? <Text style={styles.secondaryText}>Hey, Rahul</Text> : null
+          secondaryText ? <Text style={styles.secondaryText}>{secondaryText}</Text> : null
         }
 
       </View>

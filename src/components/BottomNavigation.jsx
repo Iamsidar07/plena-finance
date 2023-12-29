@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
+import FavoriteScreen from "../screens/FavoriteScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,11 @@ export default function BottomTabNavigation() {
                     options={{ tabBarLabel: "Shopping Cart" }}
                     name="ShoppingCart"
                     component={ShoppingCartScreen}
+                />
+                <Tab.Screen
+                    options={{ tabBarLabel: "Favourites" }}
+                    name="Favourites"
+                    component={FavoriteScreen}
                 />
             </Tab.Group>
         </Tab.Navigator>

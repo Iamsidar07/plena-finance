@@ -21,6 +21,7 @@ export default function HomeScreen({navigation}) {
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const { cart } = useCartStore();
+    
     useEffect(() => {
         const fetchProducts = async () => {
             try {

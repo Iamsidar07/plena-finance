@@ -37,7 +37,7 @@ export default function ProductDetailScreen({ route, navigation }) {
                         <ImageCarousel product={product} />
                     </View>
                     <View style={styles.priceContainer}>
-                        <Text style={styles.salePrice}>${salePrice}</Text>
+                        <Text style={styles.salePrice}>${product.price.toFixed(2)}</Text>
                         <Text style={styles.discountPrice}>${discountPrice} OFF</Text>
                     </View>
                     <View style={styles.actionContainer}>
