@@ -28,7 +28,7 @@ const ProductItem = ({ product, navigation }) => {
             </Pressable>
             <Pressable onPress={() => navigation.navigate(
                 "ProductDetail",
-                { id: product.id }
+                { product: JSON.stringify(product) }
             )} style={styles.imageContainer}>
                 <Image
                     source={{ uri: product.thumbnail }}
