@@ -6,6 +6,7 @@ import {
 } from "../constants/icons";
 import useCartStore from "../store/useCartStore";
 import useFavoriteStore from "../store/useFavourite";
+import { useCallback } from "react";
 
 const ProductItem = ({ product, navigation }) => {
   const { addToCart } = useCartStore();
@@ -15,18 +16,20 @@ const ProductItem = ({ product, navigation }) => {
     (favProduct) => favProduct.id === product.id,
   );
 
-  const handleFavouritePress = () => {
+  const handleFavouritePress = useCallback(() => {
     // add or remove to favourite list
     if (isFavorite) {
       removeFromFavorites(product.id);
     } else {
       addToFavorites(product);
     }
-  };
-  const handleAddToCartPress = () => {
+  }, [isFavorite, removeFromFavorites, addToFavorites]);
+
+  const handleAddToCartPress = useCallback(() => {
     // add to cart
     addToCart(product);
-  };
+  }, [addToCart, product]);
+
   return (
     <View style={styles.itemContainer}>
       <Pressable
@@ -122,4 +125,3 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
 });
-

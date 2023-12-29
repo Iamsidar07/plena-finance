@@ -15,22 +15,24 @@ const ImageCarousel = ({ product }) => {
     (favProduct) => favProduct.id === product.id,
   );
 
-  const handleFavouritePress = () => {
+  const handleFavouritePress = useCallback(() => {
     // add or remove to favourite list
     if (isFavorite) {
       removeFromFavorites(product.id);
     } else {
       addToFavorites(product);
     }
-  };
-  const renderItem = ({ item }) => {
-    return <Image source={{ uri: item }} style={styles.image} />;
-  };
+  }, [isFavorite, removeFromFavorites, addToFavorites]);
+
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setCurrentIndex(viewableItems[0].index || 0);
     }
   }, []);
+
+  const renderItem = ({ item }) => {
+    return <Image source={{ uri: item }} style={styles.image} />;
+  };
 
   return (
     <View style={styles.container}>
@@ -116,4 +118,3 @@ const styles = StyleSheet.create({
     width: 17,
   },
 });
-

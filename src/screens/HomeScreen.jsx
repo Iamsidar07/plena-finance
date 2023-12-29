@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { arrowIcon, cartIcon, searchIcon } from "../constants/icons";
 import { data } from "../constants/carousel";
 import { SCREEN_WIDTH } from "../constants/screen";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ProductItem from "../components/ProductItem";
 import useCartStore from "../store/useCartStore";
 import { showToast } from "../utils/toast";
@@ -50,7 +50,7 @@ export default function HomeScreen({ navigation }) {
     fetchProducts();
   }, []);
 
-  const handleSearchChange = (value) => {
+  const handleSearchChange = useCallback((value) => {
     setSearchInput(value);
     const debounceFunc = debounce(() => {
       if (!value) {
@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }) {
       setSearchResults(results);
     }, 700);
     debounceFunc();
-  };
+  }, []);
 
   const carouselItem = ({ item }) => {
     return (
