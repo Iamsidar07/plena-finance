@@ -23,6 +23,7 @@ export default function ProductDetailScreen({ route, navigation }) {
                 <Header
                     back
                     bag
+                    navigation={navigation}
                 />
                 <View style={styles.contentContainer}>
                     <Text style={styles.title}>{product.title}</Text>
