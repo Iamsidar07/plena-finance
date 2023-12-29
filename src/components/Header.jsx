@@ -1,38 +1,37 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { backIcon, bagDark } from '../constants/icons'
-import useCartStore from '../store/useCartStore'
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { backIcon, bagDark } from "../constants/icons";
+import useCartStore from "../store/useCartStore";
 
 const Header = ({ back, title, secondaryText, bag, navigation }) => {
   const { cart } = useCartStore();
   return (
     <View style={styles.container}>
-
       <View style={styles.leftContainer}>
-        {
-          back ? <Pressable onPress={() => navigation.goBack()} style={styles.backContainer}>
+        {back ? (
+          <Pressable
+            onPress={() => navigation.goBack()}
+            style={styles.backContainer}
+          >
             <Image source={backIcon} style={styles.backIcon} />
-          </Pressable> : null
-        }
-        {
-          title ? <Text style={styles.title}>{title}</Text> : null
-        }
-        {
-          secondaryText ? <Text style={styles.secondaryText}>{secondaryText}</Text> : null
-        }
-
+          </Pressable>
+        ) : null}
+        {title ? <Text style={styles.title}>{title}</Text> : null}
+        {secondaryText ? (
+          <Text style={styles.secondaryText}>{secondaryText}</Text>
+        ) : null}
       </View>
-      {
-        bag ? <Pressable>
+      {bag ? (
+        <Pressable>
           <Image source={bagDark} style={styles.cartIcon} />
           <Text style={styles.cartQuantity}>{cart.length}</Text>
-        </Pressable> : null
-      }
+        </Pressable>
+      ) : null}
     </View>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: "contain",
-    position: "relative"
+    position: "relative",
   },
   cartQuantity: {
     position: "absolute",
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: "center",
     borderColor: "#ffffff",
-    borderWidth: 2
+    borderWidth: 2,
   },
-})
+});
+

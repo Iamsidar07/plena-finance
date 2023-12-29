@@ -8,4 +8,16 @@ import backIcon from "../assets/icons/back.png";
 import bagDark from "../assets/icons/bag-dark.png";
 import ratingFilled from "../assets/icons/rating-filled.png";
 import ratingOutline from "../assets/icons/rating-outline.png";
-export { arrowIcon, searchIcon, cartIcon, addToCartIcon, favouriteActiveIcon, favouriteInActiveIcon, backIcon, bagDark, ratingFilled, ratingOutline }
+export {
+  arrowIcon,
+  searchIcon,
+  cartIcon,
+  addToCartIcon,
+  favouriteActiveIcon,
+  favouriteInActiveIcon,
+  backIcon,
+  bagDark,
+  ratingFilled,
+  ratingOutline,
+};
+
