@@ -3,15 +3,14 @@ import React from 'react'
 import { backIcon, bagDark } from '../constants/icons'
 import useCartStore from '../store/useCartStore'
 
-const Header = ({ back, title, secondaryText, bag }) => {
+const Header = ({ back, title, secondaryText, bag, navigation }) => {
   const { cart } = useCartStore();
-  console.log({ back, title, secondaryText, bag })
   return (
     <View style={styles.container}>
 
       <View style={styles.leftContainer}>
         {
-          back ? <Pressable style={styles.backContainer}>
+          back ? <Pressable onPress={() => navigation.goBack()} style={styles.backContainer}>
             <Image source={backIcon} style={styles.backIcon} />
           </Pressable> : null
         }
