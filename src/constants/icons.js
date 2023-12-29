@@ -20,4 +20,3 @@ export {
   ratingFilled,
   ratingOutline,
 };
-

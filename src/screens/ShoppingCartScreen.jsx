@@ -23,7 +23,13 @@ export default function ShoppingCartScreen({ navigation }) {
       <View style={styles.cartItemContainer}>
         <View style={styles.cartItem}>
           <View style={styles.cartItemLeft}>
-            <Pressable onPress={() => navigation.navigate("ProductDetail", { product: JSON.stringify(item) })}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("ProductDetail", {
+                  product: JSON.stringify(item),
+                })
+              }
+            >
               <Image source={{ uri: item.thumbnail }} style={styles.image} />
             </Pressable>
             <View style={styles.cartInfoContainer}>
@@ -203,4 +209,3 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
 });
-

@@ -160,4 +160,3 @@ const styles = StyleSheet.create({
     color: "#8891A5",
   },
 });
-

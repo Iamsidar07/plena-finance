@@ -10,9 +10,14 @@ const FavoriteScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <Header back secondaryText={"Your Favorites"} navigation={navigation} bag />
-        {
-          favorites.length > 0 ? <FlatList
+        <Header
+          back
+          secondaryText={"Your Favorites"}
+          navigation={navigation}
+          bag
+        />
+        {favorites.length > 0 ? (
+          <FlatList
             data={favorites}
             renderItem={({ item }) => (
               <ProductItem navigation={navigation} product={item} />
@@ -23,8 +28,12 @@ const FavoriteScreen = ({ navigation }) => {
               padding: 10,
               marginTop: 10,
             }}
-          /> : <Text style={{ textAlign: "center", marginTop: 45 }}>Seems like empty! your favorites will appear here...</Text>
-        }
+          />
+        ) : (
+          <Text style={{ textAlign: "center", marginTop: 45 }}>
+            Seems like empty! your favorites will appear here...
+          </Text>
+        )}
       </SafeAreaView>
     </View>
   );
@@ -38,4 +47,3 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.length,
   },
 });
-
