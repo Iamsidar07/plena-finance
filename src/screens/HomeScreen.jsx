@@ -1,14 +1,89 @@
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { arrowIcon, cartIcon, searchIcon } from "../constants/icons";
+import { data } from "../constants/carousel";
+import { SCREEN_WIDTH } from "../constants/screen";
+import { useEffect, useState } from "react";
+import ProductItem from "../components/ProductItem";
+import useCartStore from "../store/useCartStore";
+import { showToast } from "../utils/toast";
+import { debounce } from "../utils/debounce";
+import { BASE_URL } from "../config";
 
-export default function HomeScreen() {
+const location = "Green Way 3000, Sylhet"
+
+
+
+export default function HomeScreen({navigation}) {
+    const [products, setProducts] = useState([]);
+    const [isFetchingProducts, setIsFetchingProducts] = useState(true);
+    const [isErrorWhileFetchingProducts, setIsErrorWhileFetchingProducts] = useState(false);
+    const [searchInput, setSearchInput] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const { cart } = useCartStore();
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setIsFetchingProducts(true);
+                setIsErrorWhileFetchingProducts(false);
+                const response = await fetch(`${BASE_URL}/products`);
+                if (!response.ok) {
+                    setIsErrorWhileFetchingProducts(true);
+                }
+                const data = await response.json();
+                setProducts(data.products);
+            } catch (error) {
+                console.error(error);
+                showToast(error.message);
+                setIsErrorWhileFetchingProducts(true)
+            } finally {
+                setIsFetchingProducts(false)
+            }
+        }
+        fetchProducts();
+    }, []);
+
+    const handleSearchChange = (value) => {
+        setSearchInput(value);
+        const debounceFunc = debounce(() => {
+            if (!value) {
+                setSearchResults([]);
+                return;
+            }
+            const results = products.filter((product) => product.title.toLowerCase().includes(value.toLowerCase()));
+            setSearchResults(results);
+        }, 700);
+        debounceFunc();
+    }
+
+
+    const carouselItem = ({ item }) => {
+        return (
+            <View style={styles.item}>
+                <Image
+                    source={item.image}
+                    resizeMode="contain"
+                    style={styles.carouselItem}
+                />
+            </View>
+        )
+    }
+
+    const renderProductItem = ({ item }) => {
+        return (
+            <ProductItem navigation={navigation} product={item} />
+        )
+    }
+
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.headerContainer}>
+        <ScrollView style={styles.container}>
+            <SafeAreaView style={styles.headerContainer}>
                 <View style={styles.headerTitleContainer}>
                     <Text style={styles.headerTitle}>Hey, Rahul</Text>
-                    <Image source={cartIcon} style={styles.cartIcon} />
+                    <Pressable>
+                        <Image source={cartIcon} style={styles.cartIcon} />
+                        <Text style={styles.cartQuantity}>{cart.length}</Text>
+                    </Pressable>
                 </View>
                 <View style={styles.inputContainer}>
                     <Image source={searchIcon} style={styles.searchIcon} />
@@ -17,6 +92,8 @@ export default function HomeScreen() {
                         placeholder="Search for products or store"
                         placeholderTextColor={"#8891A5"}
                         cursorColor={"#8891A5"}
+                        value={searchInput}
+                        onChangeText={handleSearchChange}
                     />
                 </View>
                 <View style={styles.deliveryDetailContainer}>
@@ -27,9 +104,11 @@ export default function HomeScreen() {
                         </Text>
                         <View style={styles.deliveryDetailDescriptionContainer}>
                             <Text style={styles.deliveryDetailDescription}>
-                                Green Way 3000, Sylhet
+                                {location.length >= 20 ? `${location.slice(0, 20)}...` : location}
                             </Text>
-                            <Image source={arrowIcon} style={styles.arrowIcon} />
+                            <Pressable>
+                                <Image source={arrowIcon} style={styles.arrowIcon} />
+                            </Pressable>
                         </View>
                     </View>
                     {/* right */}
@@ -41,12 +120,42 @@ export default function HomeScreen() {
                             <Text style={styles.deliveryDetailDescription}>
                                 1 HOUR
                             </Text>
-                            <Image source={arrowIcon} style={styles.arrowIcon} />
+                            <Pressable>
+                                <Image source={arrowIcon} style={styles.arrowIcon} />
+                            </Pressable>
                         </View>
                     </View>
                 </View>
+            </SafeAreaView>
+            <View>
+                <FlatList
+                    data={data}
+                    renderItem={carouselItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal
+                    contentContainerStyle={{
+                        padding: 10,
+                    }}
+                />
             </View>
-        </SafeAreaView>
+            <Text style={styles.recommendedTitle}>{searchInput ? `"${searchInput}"` : "Recommended"}</Text>
+            <>
+                {
+                    isFetchingProducts ? <Text style={{ textAlign: "center" }}>Loading...</Text> : <FlatList
+                        data={searchInput ? searchResults : products}
+                        renderItem={renderProductItem}
+                        keyExtractor={(item) => item.id.toString()}
+                        numColumns={2}
+                        contentContainerStyle={{
+                            padding: 10,
+                        }}
+                    />
+                }
+                {
+                    isErrorWhileFetchingProducts && !isFetchingProducts ? <Text style={{ textAlign: "center" }}>Something went wrong!</Text> : null
+                }
+            </>
+        </ScrollView>
     )
 }
 
@@ -72,9 +181,23 @@ const styles = StyleSheet.create({
         color: "#F8F9FB",
     },
     cartIcon: {
-        width: 35,
-        height: 35,
-        resizeMode: "contain"
+        width: 24,
+        height: 24,
+        resizeMode: "contain",
+        position: "relative"
+    },
+    cartQuantity: {
+        position: "absolute",
+        width: 24,
+        height: 24,
+        borderRadius: 50,
+        top: -7,
+        left: 9,
+        backgroundColor: "#FFC83A",
+        color: "#FFFFFF",
+        textAlign: "center",
+        borderColor: "#2A4BA0",
+        borderWidth: 2
     },
     searchIcon: {
         width: 25,
@@ -123,7 +246,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         color: "#F8F9FB",
         lineHeight: 19.2,
-        letterSpacing: 0.2
+        letterSpacing: 0.2,
     },
     deliveryDetailDescriptionContainer: {
         flexDirection: "row",
@@ -131,7 +254,21 @@ const styles = StyleSheet.create({
         marginTop: 5,
         gap: 4,
     },
-    
-
-
+    carouselItem: {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+        borderRadius: 20,
+    },
+    item: {
+        width: SCREEN_WIDTH - 50,
+        height: 123,
+        marginRight: 20,
+    },
+    recommendedTitle: {
+        fontSize: 30,
+        fontWeight: "400",
+        lineHeight: 38,
+        padding: 20,
+    }
 })

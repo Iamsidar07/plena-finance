@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import BottomTabNavigation from './src/components/BottomNavigation';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 export default function App() {
   return (
-    <SafeAreaView>
+    <SafeAreaProvider>
       <StatusBar style='auto' />
-      <BottomTabNavigation />
-    </SafeAreaView>
+      <NavigationContainer>
+        <BottomTabNavigation />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
