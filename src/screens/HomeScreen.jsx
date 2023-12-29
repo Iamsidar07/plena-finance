@@ -86,7 +86,7 @@ export default function HomeScreen({ navigation }) {
       <SafeAreaView style={styles.headerContainer}>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle}>Hey, Rahul</Text>
-          <Pressable>
+          <Pressable onPress={() => navigation.navigate("ShoppingCart")}>
             <Image source={cartIcon} style={styles.cartIcon} />
             <Text style={styles.cartQuantity}>{cart.length}</Text>
           </Pressable>

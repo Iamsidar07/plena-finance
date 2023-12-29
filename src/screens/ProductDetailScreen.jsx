@@ -25,7 +25,7 @@ export default function ProductDetailScreen({ route, navigation }) {
           <Text style={styles.title}>{product.title}</Text>
           <View style={styles.reviewContainer}>
             <Rating ratings={product.rating} />
-            <Text style={styles.reviewText}>100 Reviews</Text>
+            <Text style={styles.reviewText}>{product.rating} Star</Text>
           </View>
           <View style={styles.carouselContainer}>
             <ImageCarousel product={product} />

@@ -22,7 +22,7 @@ const Header = ({ back, title, secondaryText, bag, navigation }) => {
         ) : null}
       </View>
       {bag ? (
-        <Pressable>
+        <Pressable onPress={() => navigation.navigate("ShoppingCart")}>
           <Image source={bagDark} style={styles.cartIcon} />
           <Text style={styles.cartQuantity}>{cart.length}</Text>
         </Pressable>

@@ -23,8 +23,10 @@ export default function ShoppingCartScreen({ navigation }) {
       <View style={styles.cartItemContainer}>
         <View style={styles.cartItem}>
           <View style={styles.cartItemLeft}>
-            <Image source={{ uri: item.thumbnail }} style={styles.image} />
-            <View>
+            <Pressable onPress={() => navigation.navigate("ProductDetail", { product: JSON.stringify(item) })}>
+              <Image source={{ uri: item.thumbnail }} style={styles.image} />
+            </Pressable>
+            <View style={styles.cartInfoContainer}>
               <Text style={styles.cartItemTitle}>{item.title}</Text>
               <Text style={styles.cartItemPrice}>${item.price}</Text>
             </View>
@@ -120,12 +122,17 @@ const styles = StyleSheet.create({
   cartItemLeft: {
     flexDirection: "row",
     columnGap: 10,
+    flex: 0.7,
+  },
+  cartInfoContainer: {
+    width: "100%",
   },
   cartItemTitle: {
     fontSize: 14,
     fontWeight: "500",
     color: "#1E222B",
     lineHeight: 19.2,
+    maxWidth: "100%",
   },
   cartItemPrice: {
     fontSize: 14,
