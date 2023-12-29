@@ -257,7 +257,6 @@ const styles = StyleSheet.create({
     carouselItem: {
         width: "100%",
         height: "100%",
-        backgroundColor: "red",
         resizeMode: "cover",
         borderRadius: 20,
     },
