@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { backIcon, bagDark } from "../constants/icons";
 import useCartStore from "../store/useCartStore";
+import { Feather, AntDesign } from '@expo/vector-icons';
 
 const Header = ({ back, title, secondaryText, bag, navigation }) => {
   const { cart } = useCartStore();
@@ -13,7 +13,7 @@ const Header = ({ back, title, secondaryText, bag, navigation }) => {
             onPress={() => navigation.goBack()}
             style={styles.backContainer}
           >
-            <Image source={backIcon} style={styles.backIcon} />
+            <AntDesign name="left" size={15} color="#1E222B" />
           </Pressable>
         ) : null}
         {title ? <Text style={styles.title}>{title}</Text> : null}
@@ -23,7 +23,7 @@ const Header = ({ back, title, secondaryText, bag, navigation }) => {
       </View>
       {bag ? (
         <Pressable onPress={() => navigation.navigate("ShoppingCart")}>
-          <Image source={bagDark} style={styles.cartIcon} />
+          <Feather name="shopping-bag" size={24} color="black" />
           <Text style={styles.cartQuantity}>{cart.length}</Text>
         </Pressable>
       ) : null}
@@ -69,19 +69,13 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 24,
   },
-  cartIcon: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain",
-    position: "relative",
-  },
   cartQuantity: {
     position: "absolute",
     width: 24,
     height: 24,
     borderRadius: 50,
-    top: -7,
-    left: 9,
+    top: -10,
+    left: 15,
     backgroundColor: "#FFC83A",
     color: "#FFFFFF",
     textAlign: "center",

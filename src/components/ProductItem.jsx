@@ -7,6 +7,8 @@ import {
 import useCartStore from "../store/useCartStore";
 import useFavoriteStore from "../store/useFavourite";
 import { useCallback } from "react";
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const ProductItem = ({ product, navigation }) => {
   const { addToCart } = useCartStore();
@@ -36,10 +38,11 @@ const ProductItem = ({ product, navigation }) => {
         style={styles.favouriteContainer}
         onPress={handleFavouritePress}
       >
-        <Image
-          source={isFavorite ? favouriteActiveIcon : favouriteInActiveIcon}
-          style={styles.icon}
-        />
+        {
+          isFavorite ? <AntDesign name="heart" size={24} color="#FF8181" /> :
+            <AntDesign name="hearto" size={24} color="black" />
+        }
+
       </Pressable>
       <Pressable
         onPress={() =>
@@ -64,8 +67,8 @@ const ProductItem = ({ product, navigation }) => {
               : product.title}
           </Text>
         </View>
-        <Pressable onPress={handleAddToCartPress}>
-          <Image source={addToCartIcon} style={styles.addToCartIcon} />
+        <Pressable style={styles.addToCartIcon} onPress={handleAddToCartPress}>
+          <AntDesign name="plus" size={14} color="white" />
         </Pressable>
       </View>
     </View>
@@ -122,6 +125,10 @@ const styles = StyleSheet.create({
   addToCartIcon: {
     width: 24,
     height: 24,
-    resizeMode: "contain",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2A4BA0",
+    borderRadius: 50,
+    padding: 1,
   },
 });

@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { SCREEN_WIDTH } from "../constants/screen";
 import { favouriteActiveIcon, favouriteInActiveIcon } from "../constants/icons";
 import useFavoriteStore from "../store/useFavourite";
+import { AntDesign } from '@expo/vector-icons';
 
 const ImageCarousel = ({ product }) => {
   const viewabilityConfigRef = useRef({
@@ -52,10 +53,10 @@ const ImageCarousel = ({ product }) => {
         style={styles.favouriteContainer}
         onPress={handleFavouritePress}
       >
-        <Image
-          source={isFavorite ? favouriteActiveIcon : favouriteInActiveIcon}
-          style={styles.icon}
-        />
+        {
+          isFavorite ? <AntDesign name="heart" size={24} color="#FF8181" /> :
+            <AntDesign name="hearto" size={24} color="black" />
+        }
       </Pressable>
       <View style={styles.paginationContainer}>
         {product.images.map((_, index) => (
