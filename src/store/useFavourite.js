@@ -1,28 +1,28 @@
 import { create } from "zustand";
 import { showToast } from "../utils/toast";
 
-const useFavoriteStore = create((set) => ({
-  favorites: [],
-  addToFavorites: (product) =>
+const useFavouriteStore = create((set) => ({
+  favourites: [],
+  addToFavourites: (product) =>
     set((state) => {
-      const exists = state.favorites.some((item) => item.id === product.id);
+      const exists = state.favourites.some((item) => item.id === product.id);
       if (!exists) {
-        showToast("Added to favorite.");
-        return { favorites: [...state.favorites, product] };
+        showToast("Added to favourite.");
+        return { favourites: [...state.favourites, product] };
       }
       return state;
     }),
-  removeFromFavorites: (productId) =>
+  removeFromFavourites: (productId) =>
     set((state) => {
-      showToast("Removed from favorite.");
+      showToast("Removed from favourite.");
       return {
-        favorites: state.favorites.filter((item) => item.id !== productId),
+        favourites: state.favourites.filter((item) => item.id !== productId),
       };
     }),
-  clearFavorites: () =>
+  clearFavourites: () =>
     set(() => ({
-      favorites: [],
+      favourites: [],
     })),
 }));
 
-export default useFavoriteStore;
+export default useFavouriteStore;

@@ -1,29 +1,28 @@
 import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
 import React, { useCallback, useRef, useState } from "react";
 import { SCREEN_WIDTH } from "../constants/screen";
-import { favouriteActiveIcon, favouriteInActiveIcon } from "../constants/icons";
-import useFavoriteStore from "../store/useFavourite";
-import { AntDesign } from '@expo/vector-icons';
+import useFavouriteStore from "../store/useFavourite";
+import { AntDesign } from "@expo/vector-icons";
 
 const ImageCarousel = ({ product }) => {
   const viewabilityConfigRef = useRef({
     itemVisiblePercentThreshold: 50,
   });
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { addToFavorites, removeFromFavorites, favorites } = useFavoriteStore();
+  const { addToFavourites, removeFromFavourites, favourites } = useFavouriteStore();
 
-  const isFavorite = favorites.some(
+  const isFavourite = favourites.some(
     (favProduct) => favProduct.id === product.id,
   );
 
   const handleFavouritePress = useCallback(() => {
     // add or remove to favourite list
-    if (isFavorite) {
-      removeFromFavorites(product.id);
+    if (isFavourite) {
+      removeFromFavourites(product.id);
     } else {
-      addToFavorites(product);
+      addToFavourites(product);
     }
-  }, [isFavorite, removeFromFavorites, addToFavorites]);
+  }, [isFavourite, removeFromFavourites, addToFavourites]);
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -53,10 +52,11 @@ const ImageCarousel = ({ product }) => {
         style={styles.favouriteContainer}
         onPress={handleFavouritePress}
       >
-        {
-          isFavorite ? <AntDesign name="heart" size={24} color="#FF8181" /> :
-            <AntDesign name="hearto" size={24} color="black" />
-        }
+        {isFavourite ? (
+          <AntDesign name="heart" size={24} color="#FF8181" />
+        ) : (
+          <AntDesign name="hearto" size={24} color="black" />
+        )}
       </Pressable>
       <View style={styles.paginationContainer}>
         {product.images.map((_, index) => (
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: 207,
     position: "relative",
-    backgroundColor: "#F8F9FB",
   },
   image: {
     width: SCREEN_WIDTH,

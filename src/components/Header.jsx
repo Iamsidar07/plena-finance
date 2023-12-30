@@ -1,7 +1,8 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import useCartStore from "../store/useCartStore";
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { Feather, AntDesign } from "@expo/vector-icons";
+import MyText from "./CustomText";
 
 const Header = ({ back, title, secondaryText, bag, navigation }) => {
   const { cart } = useCartStore();
@@ -16,15 +17,15 @@ const Header = ({ back, title, secondaryText, bag, navigation }) => {
             <AntDesign name="left" size={15} color="#1E222B" />
           </Pressable>
         ) : null}
-        {title ? <Text style={styles.title}>{title}</Text> : null}
+        {title ? <MyText style={styles.title}>{title}</MyText> : null}
         {secondaryText ? (
-          <Text style={styles.secondaryText}>{secondaryText}</Text>
+          <MyText style={styles.secondaryText}>{secondaryText}</MyText>
         ) : null}
       </View>
       {bag ? (
         <Pressable onPress={() => navigation.navigate("ShoppingCart")}>
           <Feather name="shopping-bag" size={24} color="black" />
-          <Text style={styles.cartQuantity}>{cart.length}</Text>
+          <MyText style={styles.cartQuantity}> {cart.length}</MyText>
         </Pressable>
       ) : null}
     </View>

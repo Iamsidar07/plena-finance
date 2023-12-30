@@ -8,4 +8,3 @@ export const debounce = (fun, delay = 500) => {
     }, delay);
   };
 };
-

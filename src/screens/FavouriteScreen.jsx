@@ -1,24 +1,25 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../components/Header";
 import useFavouriteStore from "../store/useFavourite";
 import ProductItem from "../components/ProductItem";
 import { StatusBar } from "expo-status-bar";
-const FavoriteScreen = ({ navigation }) => {
-  const { favorites } = useFavouriteStore();
+import MyText from "../components/CustomText";
+const FavouriteScreen = ({ navigation }) => {
+  const { favourites } = useFavouriteStore();
   return (
     <View style={styles.container}>
       <SafeAreaView>
         <Header
           back
-          secondaryText={"Your Favorites"}
+          secondaryText={"Your Favourites"}
           navigation={navigation}
           bag
         />
-        {favorites.length > 0 ? (
+        {favourites.length > 0 ? (
           <FlatList
-            data={favorites}
+            data={favourites}
             renderItem={({ item }) => (
               <ProductItem navigation={navigation} product={item} />
             )}
@@ -30,20 +31,20 @@ const FavoriteScreen = ({ navigation }) => {
             }}
           />
         ) : (
-          <Text style={{ textAlign: "center", marginTop: 45 }}>
-            Seems like empty! your favorites will appear here...
-          </Text>
+          <MyText style={{ textAlign: "center", marginTop: 45 }}>
+            Seems like empty! your favourites will appear here...
+          </MyText>
         )}
       </SafeAreaView>
     </View>
   );
 };
 
-export default FavoriteScreen;
+export default FavouriteScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.length,
+    paddingTop: StatusBar.length + 10,
   },
 });

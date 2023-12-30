@@ -1,10 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Header from "../components/Header";
 import ImageCarousel from "../components/ImageCarousel";
 import Rating from "../components/Rating";
 import useCartStore from "../store/useCartStore";
 import { useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MyText from "../components/CustomText";
 export default function ProductDetailScreen({ route, navigation }) {
   const { addToCart } = useCartStore();
   const product = JSON.parse(route.params.product);
@@ -18,51 +19,55 @@ export default function ProductDetailScreen({ route, navigation }) {
   }, [product]);
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <View>
         <Header back bag navigation={navigation} />
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>{product.title}</Text>
+        <ScrollView
+          contentContainerStyle={{
+            padding: 10,
+          }}
+        >
+          <MyText style={styles.title}>{product.title}</MyText>
           <View style={styles.reviewContainer}>
             <Rating ratings={product.rating} />
-            <Text style={styles.reviewText}>{product.rating} Star</Text>
+            <MyText style={styles.reviewText}>{product.rating} Star</MyText>
           </View>
           <View style={styles.carouselContainer}>
             <ImageCarousel product={product} />
           </View>
           <View style={styles.priceContainer}>
-            <Text style={styles.salePrice}>${product.price.toFixed(2)}</Text>
-            <Text style={styles.discountPrice}>${discountPrice} OFF</Text>
+            <MyText style={styles.salePrice}>
+              ${product.price.toFixed(2)}
+            </MyText>
+            <MyText style={styles.discountPrice}>${discountPrice} OFF</MyText>
           </View>
           <View style={styles.actionContainer}>
             <Pressable
               onPress={handleAddToCartPress}
               style={[styles.button, styles.addToCart]}
             >
-              <Text style={styles.addToCartText}>Add To Cart</Text>
+              <MyText style={styles.addToCartText}>Add To Cart</MyText>
             </Pressable>
             <Pressable style={[styles.button, styles.buyNow]}>
-              <Text style={styles.buyNowText}>Buy Now</Text>
+              <MyText style={styles.buyNowText}>Buy Now</MyText>
             </Pressable>
           </View>
-          <Text style={styles.detail}>Details</Text>
+          <MyText style={styles.detail}> Details</MyText>
           <View style={styles.descriptionContainer}>
-            <Text style={styles.description}>{product.description}</Text>
+            <MyText style={styles.description}>{product.description}</MyText>
           </View>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
   },
-  contentContainer: {
-    paddingHorizontal: 25,
-    lineHeight: 19,
-  },
+
   title: {
     fontSize: 50,
     fontWeight: "300",
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     marginTop: 10,
-    marginHorizontal: -25,
+    marginHorizontal: -10,
     position: "relative",
   },
   priceContainer: {

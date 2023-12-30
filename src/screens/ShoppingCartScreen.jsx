@@ -1,22 +1,21 @@
 import {
-  FlatList,
   Image,
   Pressable,
   StyleSheet,
-  Text,
   View,
-  Animated
+  Animated,
+  ScrollView,
 } from "react-native";
 import useCartStore from "../store/useCartStore";
 import Header from "../components/Header";
 import { StatusBar } from "expo-status-bar";
 import { DELEVERY_CHARGE } from "../config";
 import { useState } from "react";
+import MyText from "../components/CustomText";
 export default function ShoppingCartScreen({ navigation }) {
   const [animation] = useState(new Animated.Value(1));
   const [removedProductId, setRemovedProductId] = useState(null);
-  const { cart, increaseQuantity, decreaseQuantity, clearCart } =
-    useCartStore();
+  const { cart, increaseQuantity, decreaseQuantity } = useCartStore();
   const subTotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
@@ -24,10 +23,7 @@ export default function ShoppingCartScreen({ navigation }) {
   const total = subTotal + DELEVERY_CHARGE;
 
   const handleDecreaseQuantity = (item) => {
-    console.log("item", item);
-
     if (item["quantity"] === 1) {
-      console.log("Yes");
       setRemovedProductId(item.id);
       Animated.timing(animation, {
         toValue: 0,
@@ -41,9 +37,9 @@ export default function ShoppingCartScreen({ navigation }) {
       return;
     }
     decreaseQuantity(item.id);
-  }
+  };
 
-  const renderItem = ({ item }) => {
+  const CartItem = ({ item }) => {
     return (
       <Animated.View
         key={item.id}
@@ -60,7 +56,8 @@ export default function ShoppingCartScreen({ navigation }) {
               },
             ],
           },
-        ]}>
+        ]}
+      >
         <View style={styles.cartItem}>
           <View style={styles.cartItemLeft}>
             <Pressable
@@ -73,8 +70,8 @@ export default function ShoppingCartScreen({ navigation }) {
               <Image source={{ uri: item.thumbnail }} style={styles.image} />
             </Pressable>
             <View style={styles.cartInfoContainer}>
-              <Text style={styles.cartItemTitle}>{item.title}</Text>
-              <Text style={styles.cartItemPrice}>${item.price}</Text>
+              <MyText style={styles.cartItemTitle}>{item.title}</MyText>
+              <MyText style={styles.cartItemPrice}>${item.price}</MyText>
             </View>
           </View>
           <View style={styles.cartItemRight}>
@@ -82,14 +79,14 @@ export default function ShoppingCartScreen({ navigation }) {
               style={styles.increaseQuantityTextContainer}
               onPress={() => increaseQuantity(item.id)}
             >
-              <Text style={styles.controller}>+</Text>
+              <MyText style={styles.controller}>+</MyText>
             </Pressable>
-            <Text style={styles.cartItemQuantity}>{item.quantity}</Text>
+            <MyText style={styles.cartItemQuantity}> {item.quantity}</MyText>
             <Pressable
               style={styles.increaseQuantityTextContainer}
               onPress={() => handleDecreaseQuantity(item)}
             >
-              <Text style={styles.controller}>-</Text>
+              <MyText style={styles.controller}>-</MyText>
             </Pressable>
           </View>
         </View>
@@ -105,36 +102,42 @@ export default function ShoppingCartScreen({ navigation }) {
         secondaryText={`Shopping Cart(${cart.length})`}
         navigation={navigation}
       />
-      <View style={styles.contentContainer}>
-        {cart?.length > 0 ? (
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: 20,
+          paddingHorizontal: 15,
+          paddingBottom: 100,
+        }}
+      >
+        {cart.length > 0 ? (
           <>
-            <FlatList
-              data={cart}
-              keyExtractor={(item) => item.id}
-              renderItem={renderItem}
-            />
+            {cart.map((item) => (
+              <CartItem item={item} key={item.id} />
+            ))}
             <View style={styles.totalContainer}>
               <View style={styles.totalRowContainer}>
-                <Text style={styles.leftTotalText}>Subtotal</Text>
-                <Text style={styles.rightTotalText}>${subTotal}</Text>
+                <MyText style={styles.leftTotalText}>Subtotal</MyText>
+                <MyText style={styles.rightTotalText}>${subTotal}</MyText>
               </View>
               <View style={styles.totalRowContainer}>
-                <Text style={styles.leftTotalText}>Delivery</Text>
-                <Text style={styles.rightTotalText}>${DELEVERY_CHARGE}</Text>
+                <MyText style={styles.leftTotalText}>Delivery</MyText>
+                <MyText style={styles.rightTotalText}>
+                  ${DELEVERY_CHARGE}
+                </MyText>
               </View>
               <View style={styles.totalRowContainer}>
-                <Text style={styles.leftTotalText}>Total</Text>
-                <Text style={styles.rightTotalText}>${total}</Text>
+                <MyText style={styles.leftTotalText}>Total</MyText>
+                <MyText style={styles.rightTotalText}> ${total}</MyText>
               </View>
               <Pressable style={[styles.button]}>
-                <Text style={styles.checkoutText}>Proceed To Checkout</Text>
+                <MyText style={styles.checkoutText}>Proceed To Checkout</MyText>
               </Pressable>
             </View>
           </>
         ) : (
-          <Text style={{ textAlign: "center" }}>Your cart is empty</Text>
+          <MyText style={{ textAlign: "center" }}> Your cart is empty</MyText>
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -145,7 +148,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.length + 50,
   },
   contentContainer: {
-    padding: 20,
     flex: 1,
   },
   image: {

@@ -1,31 +1,26 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import {
-  addToCartIcon,
-  favouriteActiveIcon,
-  favouriteInActiveIcon,
-} from "../constants/icons";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import useCartStore from "../store/useCartStore";
-import useFavoriteStore from "../store/useFavourite";
+import useFavouriteStore from "../store/useFavourite";
 import { useCallback } from "react";
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+import MyText from "./CustomText";
 
 const ProductItem = ({ product, navigation }) => {
   const { addToCart } = useCartStore();
-  const { addToFavorites, removeFromFavorites, favorites } = useFavoriteStore();
+  const { addToFavourites, removeFromFavourites, favourites } = useFavouriteStore();
 
-  const isFavorite = favorites.some(
+  const isFavourite = favourites.some(
     (favProduct) => favProduct.id === product.id,
   );
 
   const handleFavouritePress = useCallback(() => {
     // add or remove to favourite list
-    if (isFavorite) {
-      removeFromFavorites(product.id);
+    if (isFavourite) {
+      removeFromFavourites(product.id);
     } else {
-      addToFavorites(product);
+      addToFavourites(product);
     }
-  }, [isFavorite, removeFromFavorites, addToFavorites]);
+  }, [isFavourite, removeFromFavourites, addToFavourites]);
 
   const handleAddToCartPress = useCallback(() => {
     // add to cart
@@ -38,11 +33,11 @@ const ProductItem = ({ product, navigation }) => {
         style={styles.favouriteContainer}
         onPress={handleFavouritePress}
       >
-        {
-          isFavorite ? <AntDesign name="heart" size={24} color="#FF8181" /> :
-            <AntDesign name="hearto" size={24} color="black" />
-        }
-
+        {isFavourite ? (
+          <AntDesign name="heart" size={24} color="#FF8181" />
+        ) : (
+          <AntDesign name="hearto" size={24} color="black" />
+        )}
       </Pressable>
       <Pressable
         onPress={() =>
@@ -60,12 +55,12 @@ const ProductItem = ({ product, navigation }) => {
       </Pressable>
       <View style={styles.infoContainer}>
         <View>
-          <Text style={styles.price}>${product.price}</Text>
-          <Text style={styles.title}>
+          <MyText style={styles.price}>${product.price}</MyText>
+          <MyText style={styles.title}>
             {product.title.length >= 15
               ? `${product.title.slice(0, 14)}...`
               : product.title}
-          </Text>
+          </MyText>
         </View>
         <Pressable style={styles.addToCartIcon} onPress={handleAddToCartPress}>
           <AntDesign name="plus" size={14} color="white" />

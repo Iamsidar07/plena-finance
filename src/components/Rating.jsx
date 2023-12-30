@@ -1,17 +1,16 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import { ratingFilled, ratingOutline } from "../constants/icons";
-
+import { AntDesign } from "@expo/vector-icons";
 const Rating = ({ ratings }) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
-    stars.push(
-      <Image
-        source={i <= ratings ? ratingFilled : ratingOutline}
-        style={styles.star}
-        key={i}
-      />,
-    );
+    const star =
+      i <= ratings ? (
+        <AntDesign key={i} name="star" size={24} color="#F9B023" />
+      ) : (
+        <AntDesign key={i} name="staro" size={24} color="black" />
+      );
+    stars.push(star);
   }
   return <View style={styles.ratingContainer}>{stars}</View>;
 };

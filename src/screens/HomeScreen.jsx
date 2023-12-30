@@ -2,51 +2,61 @@ import {
   FlatList,
   Image,
   Pressable,
-  ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
+  StatusBar,
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { arrowIcon, cartIcon, searchIcon } from "../constants/icons";
 import { data } from "../constants/carousel";
 import { SCREEN_WIDTH } from "../constants/screen";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import ProductItem from "../components/ProductItem";
 import useCartStore from "../store/useCartStore";
 import { showToast } from "../utils/toast";
 import { debounce } from "../utils/debounce";
 import { BASE_URL, DELEVERY_LOCATION } from "../config";
-
+import { Feather, AntDesign } from "@expo/vector-icons";
+import MyText from "../components/CustomText";
 export default function HomeScreen({ navigation }) {
   const [products, setProducts] = useState([]);
-  const [isFetchingProducts, setIsFetchingProducts] = useState(true);
+  const [isFetchingProducts, setIsFetchingProducts] = useState(false);
   const [isErrorWhileFetchingProducts, setIsErrorWhileFetchingProducts] =
     useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
   const { cart } = useCartStore();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setIsFetchingProducts(true);
-        setIsErrorWhileFetchingProducts(false);
-        const response = await fetch(`${BASE_URL}/products`);
-        if (!response.ok) {
-          setIsErrorWhileFetchingProducts(true);
-        }
-        const data = await response.json();
-        setProducts(data.products);
-      } catch (error) {
-        console.error(error);
-        showToast(error.message);
-        setIsErrorWhileFetchingProducts(true);
-      } finally {
-        setIsFetchingProducts(false);
-      }
+    StatusBar.setBackgroundColor("#2A4BA0");
+    StatusBar.setBarStyle("light-content");
+    return () => {
+      StatusBar.setBackgroundColor("#2A4BA0");
+      StatusBar.setBarStyle("dark-content");
     };
+  }, []);
+  const fetchProducts = async () => {
+    try {
+      setIsFetchingProducts(true);
+      setIsErrorWhileFetchingProducts(false);
+      const response = await fetch(`${BASE_URL}/products`);
+      if (!response.ok) {
+        setIsErrorWhileFetchingProducts(true);
+      }
+      const data = await response.json();
+      setProducts(data.products);
+    } catch (error) {
+      console.error(error);
+      showToast(error.message);
+      setIsErrorWhileFetchingProducts(true);
+    } finally {
+      setIsFetchingProducts(false);
+    }
+  };
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -81,18 +91,39 @@ export default function HomeScreen({ navigation }) {
     return <ProductItem navigation={navigation} product={item} />;
   };
 
+  const ListHeaderComponent = () => {
+    return (
+      <>
+        {!searchInput ? (
+          <FlatList
+            data={data}
+            renderItem={carouselItem}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            contentContainerStyle={{
+              padding: 10,
+            }}
+          />
+        ) : null}
+        <MyText style={[styles.recommendedTitle]}>
+          {searchInput ? `"${searchInput}"` : "Recommended"}
+        </MyText>
+      </>
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView style={styles.headerContainer}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
         <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>Hey, Rahul</Text>
+          <MyText style={styles.headerTitle}>Hey, Rahul</MyText>
           <Pressable onPress={() => navigation.navigate("ShoppingCart")}>
-            <Image source={cartIcon} style={styles.cartIcon} />
-            <Text style={styles.cartQuantity}>{cart.length}</Text>
+            <Feather name="shopping-bag" size={24} color="white" />
+            <MyText style={styles.cartQuantity}>{cart.length}</MyText>
           </Pressable>
         </View>
         <View style={styles.inputContainer}>
-          <Image source={searchIcon} style={styles.searchIcon} />
+          <AntDesign name="search1" size={24} color="white" />
           <TextInput
             style={styles.input}
             placeholder="Search for products or store"
@@ -104,64 +135,64 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View style={styles.deliveryDetailContainer}>
           {/* left */}
-          <View style={styles.deliveryDetailLeftContainer}>
-            <Text style={styles.deliveryDetailTitle}>DELEVERY TO</Text>
+          <View>
+            <MyText style={styles.deliveryDetailTitle}>DELEVERY TO</MyText>
             <View style={styles.deliveryDetailDescriptionContainer}>
-              <Text style={styles.deliveryDetailDescription}>
+              <MyText style={styles.deliveryDetailDescription}>
                 {DELEVERY_LOCATION.length >= 20
                   ? `${DELEVERY_LOCATION.slice(0, 20)}...`
                   : DELEVERY_LOCATION}
-              </Text>
+              </MyText>
               <Pressable>
-                <Image source={arrowIcon} style={styles.arrowIcon} />
+                <AntDesign name="down" size={14} color="#8891A5" />
               </Pressable>
             </View>
           </View>
           {/* right */}
           <View style={styles.deliveryDetailLeftContainer}>
-            <Text style={styles.deliveryDetailTitle}>WITHIN</Text>
+            <MyText style={styles.deliveryDetailTitle}> WITHIN</MyText>
             <View style={styles.deliveryDetailDescriptionContainer}>
-              <Text style={styles.deliveryDetailDescription}>1 HOUR</Text>
+              <MyText style={styles.deliveryDetailDescription}>1 HOUR</MyText>
               <Pressable>
-                <Image source={arrowIcon} style={styles.arrowIcon} />
+                <AntDesign name="down" size={14} color="#8891A5" />
               </Pressable>
             </View>
           </View>
         </View>
-      </SafeAreaView>
-      <View>
-        <FlatList
-          data={data}
-          renderItem={carouselItem}
-          keyExtractor={(item) => item.id.toString()}
-          horizontal
-          contentContainerStyle={{
-            padding: 10,
-          }}
-        />
       </View>
-      <Text style={styles.recommendedTitle}>
-        {searchInput ? `"${searchInput}"` : "Recommended"}
-      </Text>
-      <>
-        {isFetchingProducts ? (
-          <Text style={{ textAlign: "center" }}>Loading...</Text>
-        ) : (
-          <FlatList
-            data={searchInput ? searchResults : products}
-            renderItem={renderProductItem}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={2}
-            contentContainerStyle={{
-              padding: 10,
-            }}
-          />
-        )}
-        {isErrorWhileFetchingProducts && !isFetchingProducts ? (
-          <Text style={{ textAlign: "center" }}>Something went wrong!</Text>
-        ) : null}
-      </>
-    </ScrollView>
+
+      {isFetchingProducts ? (
+        <ActivityIndicator
+          size={"large"}
+          color={"#2A4BA0"}
+          style={{ marginTop: 25 }}
+        />
+      ) : (
+        <FlatList
+          data={searchInput ? searchResults : products}
+          renderItem={renderProductItem}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          ListHeaderComponent={ListHeaderComponent}
+          contentContainerStyle={{
+            padding: 0,
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isFetchingProducts}
+              onRefresh={fetchProducts}
+              colors={["#2A4BA0"]} // Customizing the refresh indicator color(s)
+              progressBackgroundColor="#F8F9FB" // Background color of the refresh indicator
+            />
+          }
+        />
+      )}
+      {isErrorWhileFetchingProducts && !isFetchingProducts ? (
+        <MyText style={{ textAlign: "center", marginTop: 10, fontSize: 16 }}>
+          Something went wrong!
+        </MyText>
+      ) : null}
+    </SafeAreaView>
   );
 }
 
@@ -171,10 +202,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F9FB",
   },
   headerContainer: {
-    padding: 20,
+    paddingHorizontal: 20,
     backgroundColor: "#2A4BA0",
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
   },
   headerTitleContainer: {
     flexDirection: "row",
@@ -197,12 +226,12 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 50,
-    top: -7,
+    top: -4,
     left: 9,
     backgroundColor: "#FFC83A",
     color: "#FFFFFF",
     textAlign: "center",
-    borderColor: "#2A4BA0",
+    borderColor: "#ffffff",
     borderWidth: 2,
   },
   searchIcon: {
@@ -222,7 +251,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     borderRadius: 50,
-    marginTop: 45,
+    marginTop: 15,
   },
   input: {
     color: "#FFF",
@@ -230,14 +259,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
     lineHeight: 19.2,
+    fontFamily: "Manrope_400Regular",
   },
   deliveryDetailContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 30,
+    marginTop: 10,
+    paddingBottom: 10,
   },
-  deliveryDetailLeftContainer: {},
   deliveryDetailTitle: {
     fontSize: 11,
     fontWeight: "800",
