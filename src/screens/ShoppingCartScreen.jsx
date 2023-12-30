@@ -5,12 +5,16 @@ import {
   StyleSheet,
   Text,
   View,
+  Animated
 } from "react-native";
 import useCartStore from "../store/useCartStore";
 import Header from "../components/Header";
 import { StatusBar } from "expo-status-bar";
 import { DELEVERY_CHARGE } from "../config";
+import { useState } from "react";
 export default function ShoppingCartScreen({ navigation }) {
+  const [animation] = useState(new Animated.Value(1));
+  const [removedProductId, setRemovedProductId] = useState(null);
   const { cart, increaseQuantity, decreaseQuantity, clearCart } =
     useCartStore();
   const subTotal = cart.reduce(
@@ -18,9 +22,45 @@ export default function ShoppingCartScreen({ navigation }) {
     0,
   );
   const total = subTotal + DELEVERY_CHARGE;
+
+  const handleDecreaseQuantity = (item) => {
+    console.log("item", item);
+
+    if (item["quantity"] === 1) {
+      console.log("Yes");
+      setRemovedProductId(item.id);
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        // After animation, remove item
+        decreaseQuantity(item.id);
+        animation.setValue(1);
+      });
+      return;
+    }
+    decreaseQuantity(item.id);
+  }
+
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.cartItemContainer}>
+      <Animated.View
+        key={item.id}
+        style={[
+          styles.cartItemContainer,
+          {
+            opacity: removedProductId === item.id ? animation : 1,
+            transform: [
+              {
+                translateY: animation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [-10, 0],
+                }),
+              },
+            ],
+          },
+        ]}>
         <View style={styles.cartItem}>
           <View style={styles.cartItemLeft}>
             <Pressable
@@ -47,13 +87,13 @@ export default function ShoppingCartScreen({ navigation }) {
             <Text style={styles.cartItemQuantity}>{item.quantity}</Text>
             <Pressable
               style={styles.increaseQuantityTextContainer}
-              onPress={() => decreaseQuantity(item.id)}
+              onPress={() => handleDecreaseQuantity(item)}
             >
               <Text style={styles.controller}>-</Text>
             </Pressable>
           </View>
         </View>
-      </View>
+      </Animated.View>
     );
   };
 
