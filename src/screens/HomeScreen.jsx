@@ -172,6 +172,7 @@ export default function HomeScreen({ navigation }) {
           ListHeaderComponent={ListHeaderComponent}
           contentContainerStyle={{
             padding: 0,
+            paddingBottom: 100,
           }}
           refreshControl={
             <RefreshControl
@@ -299,6 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "400",
     lineHeight: 38,
-    padding: 20,
+    paddingHorizontal: 10,
+    paddingTop: 10,
   },
 });

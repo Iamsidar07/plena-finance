@@ -27,6 +27,7 @@ const FavouriteScreen = ({ navigation }) => {
             numColumns={2}
             contentContainerStyle={{
               padding: 10,
+              paddingBottom: 100,
               marginTop: 10,
             }}
           />

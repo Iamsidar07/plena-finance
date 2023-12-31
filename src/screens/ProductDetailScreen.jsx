@@ -20,44 +20,43 @@ export default function ProductDetailScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Header back bag navigation={navigation} />
-        <ScrollView
-          contentContainerStyle={{
-            padding: 10,
-          }}
-        >
-          <MyText style={styles.title}>{product.title}</MyText>
-          <View style={styles.reviewContainer}>
-            <Rating ratings={product.rating} />
-            <MyText style={styles.reviewText}>{product.rating} Star</MyText>
-          </View>
-          <View style={styles.carouselContainer}>
-            <ImageCarousel product={product} />
-          </View>
-          <View style={styles.priceContainer}>
-            <MyText style={styles.salePrice}>
-              ${product.price.toFixed(2)}
-            </MyText>
-            <MyText style={styles.discountPrice}>${discountPrice} OFF</MyText>
-          </View>
-          <View style={styles.actionContainer}>
-            <Pressable
-              onPress={handleAddToCartPress}
-              style={[styles.button, styles.addToCart]}
-            >
-              <MyText style={styles.addToCartText}>Add To Cart</MyText>
-            </Pressable>
-            <Pressable style={[styles.button, styles.buyNow]}>
-              <MyText style={styles.buyNowText}>Buy Now</MyText>
-            </Pressable>
-          </View>
-          <MyText style={styles.detail}> Details</MyText>
-          <View style={styles.descriptionContainer}>
-            <MyText style={styles.description}>{product.description}</MyText>
-          </View>
-        </ScrollView>
-      </View>
+      <Header back bag navigation={navigation} />
+      <ScrollView
+        contentContainerStyle={{
+          padding: 10,
+          paddingBottom: 200,
+        }}
+      >
+        <MyText style={styles.title}>{product.title}</MyText>
+        <View style={styles.reviewContainer}>
+          <Rating ratings={product.rating} />
+          <MyText style={styles.reviewText}>{product.rating} Star</MyText>
+        </View>
+        <View style={styles.carouselContainer}>
+          <ImageCarousel product={product} />
+        </View>
+        <View style={styles.priceContainer}>
+          <MyText style={styles.salePrice}>
+            ${product.price.toFixed(2)}
+          </MyText>
+          <MyText style={styles.discountPrice}>${discountPrice} OFF</MyText>
+        </View>
+        <View style={styles.actionContainer}>
+          <Pressable
+            onPress={handleAddToCartPress}
+            style={[styles.button, styles.addToCart]}
+          >
+            <MyText style={styles.addToCartText}>Add To Cart</MyText>
+          </Pressable>
+          <Pressable style={[styles.button, styles.buyNow]}>
+            <MyText style={styles.buyNowText}>Buy Now</MyText>
+          </Pressable>
+        </View>
+        <MyText style={styles.detail}> Details</MyText>
+        <View style={styles.descriptionContainer}>
+          <MyText style={styles.description}>{product.description}</MyText>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

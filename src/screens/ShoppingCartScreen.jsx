@@ -145,7 +145,7 @@ export default function ShoppingCartScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.length + 50,
+    paddingTop: StatusBar.length + 55,
   },
   contentContainer: {
     flex: 1,
