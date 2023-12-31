@@ -22,7 +22,7 @@
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.iamsidar07.plenafinance"
+      "package": "com.plenafinance.plenafinance"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
