@@ -63,17 +63,13 @@ export default function HomeScreen({ navigation }) {
   const handleSearchChange = useCallback((value) => {
     setSearchInput(value);
     const debounceFunc = debounce(() => {
-      if (!value) {
-        setSearchResults([]);
-        return;
-      }
       const results = products.filter((product) =>
         product.title.toLowerCase().includes(value.toLowerCase()),
       );
       setSearchResults(results);
     }, 700);
     debounceFunc();
-  }, []);
+  }, [products,searchInput,searchResults,debounce]);
 
   const carouselItem = ({ item }) => {
     return (
