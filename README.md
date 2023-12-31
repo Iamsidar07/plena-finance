@@ -1,6 +1,7 @@
 # Plena-Finance Readme
 ## PREVIEWS
-![Home Screen](/src/assets/previews/WhatsApp%20Image%202023-12-31%20at%2012.47.09.jpeg)
+
+![Home Screen](/src/assets/previews/preview.gif)
 
 ### Home Screen
 ![Home Screen](/src/assets/previews/WhatsApp%20Image%202023-12-31%20at%2012.47.09.jpeg)
