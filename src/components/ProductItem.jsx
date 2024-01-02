@@ -4,10 +4,13 @@ import useFavouriteStore from "../store/useFavourite";
 import { useCallback } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import MyText from "./CustomText";
+import { useNavigation } from "@react-navigation/native";
 
-const ProductItem = ({ product, navigation }) => {
+const ProductItem = ({ product }) => {
+  const navigation = useNavigation();
   const { addToCart } = useCartStore();
-  const { addToFavourites, removeFromFavourites, favourites } = useFavouriteStore();
+  const { addToFavourites, removeFromFavourites, favourites } =
+    useFavouriteStore();
 
   const isFavourite = favourites.some(
     (favProduct) => favProduct.id === product.id,

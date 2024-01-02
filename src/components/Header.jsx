@@ -3,8 +3,10 @@ import React from "react";
 import useCartStore from "../store/useCartStore";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import MyText from "./CustomText";
+import { useNavigation } from "@react-navigation/native";
 
-const Header = ({ back, title, secondaryText, bag, navigation }) => {
+const Header = ({ back, title, secondaryText, bag }) => {
+  const navigation = useNavigation();
   const { cart } = useCartStore();
   return (
     <View style={styles.container}>

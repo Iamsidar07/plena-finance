@@ -6,7 +6,7 @@ import useCartStore from "../store/useCartStore";
 import { useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MyText from "../components/CustomText";
-export default function ProductDetailScreen({ route, navigation }) {
+export default function ProductDetailScreen({ route }) {
   const { addToCart } = useCartStore();
   const product = JSON.parse(route.params.product);
   const price = product.price;
@@ -20,7 +20,7 @@ export default function ProductDetailScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header back bag navigation={navigation} />
+      <Header back bag />
       <ScrollView
         contentContainerStyle={{
           padding: 10,
@@ -36,9 +36,7 @@ export default function ProductDetailScreen({ route, navigation }) {
           <ImageCarousel product={product} />
         </View>
         <View style={styles.priceContainer}>
-          <MyText style={styles.salePrice}>
-            ${product.price.toFixed(2)}
-          </MyText>
+          <MyText style={styles.salePrice}>${product.price.toFixed(2)}</MyText>
           <MyText style={styles.discountPrice}>${discountPrice} OFF</MyText>
         </View>
         <View style={styles.actionContainer}>

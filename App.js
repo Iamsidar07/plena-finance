@@ -13,6 +13,9 @@ import {
   Manrope_500Medium,
   Manrope_600SemiBold,
   Manrope_700Bold,
+  Manrope_300Light,
+  Manrope_800ExtraBold,
+  Manrope_200ExtraLight,
 } from "@expo-google-fonts/manrope";
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +26,9 @@ export default function App() {
     Manrope_500Medium,
     Manrope_600SemiBold,
     Manrope_700Bold,
+    Manrope_300Light,
+    Manrope_800ExtraBold,
+    Manrope_200ExtraLight,
   });
 
   if (!fontsLoaded && !fontError) {
@@ -49,3 +55,4 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+

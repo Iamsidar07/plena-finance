@@ -20,15 +20,16 @@ import { debounce } from "../utils/debounce";
 import { BASE_URL, DELEVERY_LOCATION } from "../config";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import MyText from "../components/CustomText";
-export default function HomeScreen({ navigation }) {
+import { useNavigation } from "@react-navigation/native";
+export default function HomeScreen() {
+  const navigation = useNavigation();
+  const { cart } = useCartStore();
   const [products, setProducts] = useState([]);
   const [isFetchingProducts, setIsFetchingProducts] = useState(false);
   const [isErrorWhileFetchingProducts, setIsErrorWhileFetchingProducts] =
     useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  const { cart } = useCartStore();
 
   useEffect(() => {
     StatusBar.setBackgroundColor("#2A4BA0");
@@ -60,16 +61,19 @@ export default function HomeScreen({ navigation }) {
     fetchProducts();
   }, []);
 
-  const handleSearchChange = useCallback((value) => {
-    setSearchInput(value);
-    const debounceFunc = debounce(() => {
-      const results = products.filter((product) =>
-        product.title.toLowerCase().includes(value.toLowerCase()),
-      );
-      setSearchResults(results);
-    }, 700);
-    debounceFunc();
-  }, [products,searchInput,searchResults,debounce]);
+  const handleSearchChange = useCallback(
+    (value) => {
+      setSearchInput(value);
+      const debounceFunc = debounce(() => {
+        const results = products.filter((product) =>
+          product.title.toLowerCase().includes(value.toLowerCase()),
+        );
+        setSearchResults(results);
+      }, 700);
+      debounceFunc();
+    },
+    [products, searchInput, searchResults, debounce],
+  );
 
   const carouselItem = ({ item }) => {
     return (
@@ -84,7 +88,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const renderProductItem = ({ item }) => {
-    return <ProductItem navigation={navigation} product={item} />;
+    return <ProductItem product={item} />;
   };
 
   const ListHeaderComponent = () => {

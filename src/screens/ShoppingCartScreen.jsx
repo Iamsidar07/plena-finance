@@ -12,7 +12,9 @@ import { StatusBar } from "expo-status-bar";
 import { DELEVERY_CHARGE } from "../config";
 import { useState } from "react";
 import MyText from "../components/CustomText";
-export default function ShoppingCartScreen({ navigation }) {
+import { useNavigation } from "@react-navigation/native";
+export default function ShoppingCartScreen() {
+  const navigation = useNavigation();
   const [animation] = useState(new Animated.Value(1));
   const [removedProductId, setRemovedProductId] = useState(null);
   const { cart, increaseQuantity, decreaseQuantity } = useCartStore();
@@ -96,12 +98,7 @@ export default function ShoppingCartScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header
-        back
-        bag
-        secondaryText={`Shopping Cart(${cart.length})`}
-        navigation={navigation}
-      />
+      <Header back bag secondaryText={`Shopping Cart(${cart.length})`} />
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,
