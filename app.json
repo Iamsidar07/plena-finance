@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "plena-finance",
+    "name": "Plena",
     "slug": "plena-finance",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,7 +25,7 @@
       "package": "com.plenafinance.plenafinance"
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/icon.png"
     },
     "extra": {
       "eas": {
