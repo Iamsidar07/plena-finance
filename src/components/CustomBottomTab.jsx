@@ -4,8 +4,8 @@ import { AntDesign, Feather, Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MyText from "./CustomText";
 const CustomBottomTab = () => {
-  const [activeTab, setActiveTab] = useState("Home");
   const navigation = useNavigation();
+  const [activeTab, setActiveTab] = useState("Home");
 
   const tabs = [
     {
