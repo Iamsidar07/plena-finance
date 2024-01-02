@@ -56,10 +56,8 @@ const ProductItem = ({ product, navigation }) => {
       <View style={styles.infoContainer}>
         <View>
           <MyText style={styles.price}>${product.price}</MyText>
-          <MyText style={styles.title}>
-            {product.title.length >= 15
-              ? `${product.title.slice(0, 14)}...`
-              : product.title}
+          <MyText style={styles.title} numberOfLines={1}>
+            {product.title}
           </MyText>
         </View>
         <Pressable style={styles.addToCartIcon} onPress={handleAddToCartPress}>
