@@ -9,7 +9,8 @@ const ImageCarousel = ({ product }) => {
     itemVisiblePercentThreshold: 50,
   });
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { addToFavourites, removeFromFavourites, favourites } = useFavouriteStore();
+  const { addToFavourites, removeFromFavourites, favourites } =
+    useFavouriteStore();
 
   const isFavourite = favourites.some(
     (favProduct) => favProduct.id === product.id,

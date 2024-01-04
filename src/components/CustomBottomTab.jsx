@@ -36,6 +36,7 @@ const CustomBottomTab = () => {
     setActiveTab(tab.name);
     navigation.navigate(tab.name);
   };
+
   return (
     <View style={styles.container}>
       {tabs.map((tab) => {
