@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
 import { AntDesign } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 const Rating = ({ ratings }) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {

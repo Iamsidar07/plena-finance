@@ -1,11 +1,11 @@
+import { useCallback } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import MyText from "../components/CustomText";
 import Header from "../components/Header";
 import ImageCarousel from "../components/ImageCarousel";
 import Rating from "../components/Rating";
 import useCartStore from "../store/useCartStore";
-import { useCallback } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import MyText from "../components/CustomText";
 export default function ProductDetailScreen({ route }) {
   const { addToCart } = useCartStore();
   const product = JSON.parse(route.params.product);

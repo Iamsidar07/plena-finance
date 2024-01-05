@@ -1,9 +1,9 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import React from "react";
-import useCartStore from "../store/useCartStore";
-import { Feather, AntDesign } from "@expo/vector-icons";
-import MyText from "./CustomText";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import useCartStore from "../store/useCartStore";
+import MyText from "./CustomText";
 
 const Header = ({ back, title, secondaryText, bag }) => {
   const navigation = useNavigation();

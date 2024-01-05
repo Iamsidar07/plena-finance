@@ -1,7 +1,7 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
-import { AntDesign, Feather, Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 import MyText from "./CustomText";
 const CustomBottomTab = () => {
   const navigation = useNavigation();

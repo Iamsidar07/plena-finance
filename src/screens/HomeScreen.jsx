@@ -1,26 +1,26 @@
+import { AntDesign, Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Pressable,
+  RefreshControl,
+  StatusBar,
   StyleSheet,
   TextInput,
   View,
-  StatusBar,
-  ActivityIndicator,
-  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MyText from "../components/CustomText";
+import ProductItem from "../components/ProductItem";
+import { BASE_URL, DELEVERY_LOCATION } from "../config";
 import { data } from "../constants/carousel";
 import { SCREEN_WIDTH } from "../constants/screen";
-import { useCallback, useState, useEffect } from "react";
-import ProductItem from "../components/ProductItem";
 import useCartStore from "../store/useCartStore";
-import { showToast } from "../utils/toast";
 import { debounce } from "../utils/debounce";
-import { BASE_URL, DELEVERY_LOCATION } from "../config";
-import { Feather, AntDesign } from "@expo/vector-icons";
-import MyText from "../components/CustomText";
-import { useNavigation } from "@react-navigation/native";
+import { showToast } from "../utils/toast";
 export default function HomeScreen() {
   const navigation = useNavigation();
   const { cart } = useCartStore();

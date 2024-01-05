@@ -1,11 +1,11 @@
-import { FlatList, StyleSheet } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../components/Header";
-import useFavouriteStore from "../store/useFavourite";
-import ProductItem from "../components/ProductItem";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { FlatList, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MyText from "../components/CustomText";
+import Header from "../components/Header";
+import ProductItem from "../components/ProductItem";
+import useFavouriteStore from "../store/useFavourite";
 const FavouriteScreen = () => {
   const { favourites } = useFavouriteStore();
   return (

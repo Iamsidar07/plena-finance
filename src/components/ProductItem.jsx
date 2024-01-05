@@ -1,10 +1,10 @@
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import useCartStore from "../store/useCartStore";
 import useFavouriteStore from "../store/useFavourite";
-import { useCallback } from "react";
-import { AntDesign } from "@expo/vector-icons";
 import MyText from "./CustomText";
-import { useNavigation } from "@react-navigation/native";
 
 const ProductItem = ({ product }) => {
   const navigation = useNavigation();

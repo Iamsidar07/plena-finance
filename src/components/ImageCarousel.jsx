@@ -1,8 +1,8 @@
-import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import React, { useCallback, useRef, useState } from "react";
+import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
 import { SCREEN_WIDTH } from "../constants/screen";
 import useFavouriteStore from "../store/useFavourite";
-import { AntDesign } from "@expo/vector-icons";
 
 const ImageCarousel = ({ product }) => {
   const viewabilityConfigRef = useRef({

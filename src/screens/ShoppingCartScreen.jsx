@@ -1,18 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
+  Animated,
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   View,
-  Animated,
-  ScrollView,
 } from "react-native";
-import useCartStore from "../store/useCartStore";
-import Header from "../components/Header";
-import { StatusBar } from "expo-status-bar";
-import { DELEVERY_CHARGE } from "../config";
-import { useState } from "react";
 import MyText from "../components/CustomText";
-import { useNavigation } from "@react-navigation/native";
+import Header from "../components/Header";
+import { DELEVERY_CHARGE } from "../config";
+import useCartStore from "../store/useCartStore";
 export default function ShoppingCartScreen() {
   const navigation = useNavigation();
   const [animation] = useState(new Animated.Value(1));
