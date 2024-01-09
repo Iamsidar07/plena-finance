@@ -167,7 +167,7 @@ export default function HomeScreen() {
           color={"#2A4BA0"}
           style={{ marginTop: 25 }}
         />
-      ) : (
+      ) : isErrorWhileFetchingProducts ? (
         <FlatList
           data={searchInput ? searchResults : products}
           renderItem={renderProductItem}
@@ -187,12 +187,10 @@ export default function HomeScreen() {
             />
           }
         />
-      )}
-      {isErrorWhileFetchingProducts && !isFetchingProducts ? (
-        <MyText style={{ textAlign: "center", marginTop: 10, fontSize: 16 }}>
-          Something went wrong!
-        </MyText>
-      ) : null}
+      ) : <MyText style={{ textAlign: "center", marginTop: 30, fontSize: 16, fontWeight: "600" }}>
+        🐶 Oops! Something went wrong!
+      </MyText>
+      }
     </SafeAreaView>
   );
 }
